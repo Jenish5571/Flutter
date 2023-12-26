@@ -19,14 +19,37 @@ void main() {
           ),
           body: Align(
             child: Container(
-              height: 200,
-              width: 150,
-              color: Colors.white,
-              alignment: Alignment.topCenter,
+              height: 180,
+              width: 140,
+              decoration: BoxDecoration(
+                color: Colors.white12,
+                border: Border.all(
+                  color: Colors.white30,
+                  width: 5,
+                ),
+              ),
               child: Container(
-                height: 30,
-                width: 150,
-                color: Colors.brown.shade400,
+                decoration: BoxDecoration(
+                  color: Colors.brown,
+                  border: Border.symmetric(
+                    vertical: BorderSide(
+                      color : Colors.white,
+                      width: 35,
+                    ),
+                    horizontal: BorderSide(
+                      color: Colors.brown.shade400,
+                      width: 20,
+                    ),
+                  ),
+                ),
+                alignment: Alignment(-0.3,-1.03),
+                child: Text(
+                  "🔥",
+                  style: TextStyle(
+                    fontSize: 35,
+                    height: -2,
+                  ),
+                ),
               ),
             ),
           ),
