@@ -1,15 +1,51 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:resume_app/utills/routes.dart';
 
-class splash_screen extends StatefulWidget {
-  const splash_screen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<splash_screen> createState() => _splash_screenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _splash_screenState extends State<splash_screen> {
+class _SplashScreenState extends State<SplashScreen> {
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    Timer(
+      const Duration(seconds: 5),
+      () {
+        Navigator.of(context).pushReplacementNamed(Routes.home_page);
+      },
+    );
+
+    Size size = MediaQuery.of(context).size;
+    double h = size.height;
+    double w = size.width;
+
+    return Container(
+      alignment: Alignment.center,
+      color: Color(0xff11009E),
+      padding: const EdgeInsets.all(5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(),
+          Image.asset(
+            "assets/images/splash_screens/splash_image.png",
+            height: h * 0.28,
+          ),
+          Spacer(),
+          LinearProgressIndicator(
+            minHeight: 5,
+            color: Colors.indigo,
+          ),
+        ],
+      ),
+    );
   }
 }

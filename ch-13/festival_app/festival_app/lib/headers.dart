@@ -1,0 +1,11 @@
+export 'package:flutter/material.dart';
+export 'package:festival_app/routes/routes.dart';
+export 'package:festival_app/view/screens/splash_screen/splash_screen.dart';
+export 'package:festival_app/modals/quotes_modal.dart';
+export 'package:festival_app/utills/quotes_list.dart';
+export 'package:flutter/widgets.dart';
+export 'package:google_fonts/google_fonts.dart';
+export 'package:carousel_slider/carousel_slider.dart';
+export 'package:festival_app/view/screens/detail_page/detail_page.dart';
+export 'package:festival_app/view/screens/home_page/home_page.dart';
+export 'package:festival_app/view/screens/list_page/list_page.dart';
