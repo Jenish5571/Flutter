@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,12 +14,20 @@ class _HomePageState extends State<HomePage> {
   bool digitalSwitch = false;
   bool analogSwitch = false;
   bool strapSwitch = false;
+  bool timerWatch = false;
+
+  bool isTimerClock = false;
 
   DateTime dateTime = DateTime.now();
 
   int hour = 0;
   int minute = 0;
   int second = 0;
+
+  List<Map<String, dynamic>> timerHistory = [];
+  int h = 0;
+  int m = 0;
+  int s = 0;
 
   List month = [
     "January",
@@ -47,9 +54,38 @@ class _HomePageState extends State<HomePage> {
     "Sunday",
   ];
 
+  void timerClock() {
+    isTimerClock = true;
+    Future.delayed(
+      const Duration(microseconds: 1),
+      () {
+        setState(() {
+          if (isTimerClock) {
+            s++;
+          }
+          if (s > 59) //  60 > 59
+          {
+            m++;
+            s = 0;
+          }
+          if (m > 59) {
+            h++;
+            m = 0;
+          }
+
+          if (h > 12) {
+            h = 0;
+          }
+        });
+        if (isTimerClock) {
+          timerClock();
+        }
+      },
+    );
+  }
+
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         hour = DateTime.now().hour % 12;
@@ -57,15 +93,11 @@ class _HomePageState extends State<HomePage> {
         second = DateTime.now().second;
       });
     });
-    // startLiveDigitalTime();
-  }
 
-  @override
-  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TextScaler textScaler = MediaQuery.of(context).textScaler;
-    double h = size.height;
-    double w = size.width;
+    double he = size.height;
+    double wi = size.width;
 
     return Scaffold(
       drawer: Drawer(
@@ -169,6 +201,37 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            ListTile(
+              leading: Text(
+                "04.",
+                style: TextStyle(
+                  fontSize: textScaler.scale(20),
+                ),
+              ),
+              title: Text(
+                "Timer Watch",
+                style: TextStyle(
+                  fontSize: textScaler.scale(22),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              subtitle: const Text("Clock"),
+              trailing: Theme(
+                data: ThemeData(
+                  useMaterial3: true,
+                ),
+                child: Switch(
+                  value: timerWatch,
+                  onChanged: (val) {
+                    timerWatch = val;
+                    setState(() {});
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: textScaler.scale(10),
+            ),
           ],
         ),
       ),
@@ -191,7 +254,10 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Center(
-          child: (!digitalSwitch && !analogSwitch && !strapSwitch)
+          child: (!digitalSwitch &&
+                  !analogSwitch &&
+                  !strapSwitch &&
+                  !timerWatch)
               ? const Image(
                   image: NetworkImage(
                       "https://cdn.textstudio.com/output/sample/normal/6/4/8/4/clock-logo-275-14846.png"),
@@ -211,8 +277,8 @@ class _HomePageState extends State<HomePage> {
                                 Column(
                                   children: [
                                     Container(
-                                      height: h * 0.08,
-                                      width: w * 0.22,
+                                      height: he * 0.08,
+                                      width: wi * 0.22,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff2c9bf4),
                                       ),
@@ -221,13 +287,13 @@ class _HomePageState extends State<HomePage> {
                                         hour.toString().padLeft(2, '0'),
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: h * 0.05,
+                                          fontSize: he * 0.05,
                                         ),
                                       ),
                                     ),
                                     Container(
-                                      height: h * 0.025,
-                                      width: w * 0.22,
+                                      height: he * 0.025,
+                                      width: wi * 0.22,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff1d86d9),
                                       ),
@@ -236,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                         "HOURS",
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: h * 0.02,
+                                          fontSize: he * 0.02,
                                           letterSpacing: 1,
                                         ),
                                       ),
@@ -244,13 +310,13 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 SizedBox(
-                                  width: w * 0.025,
+                                  width: wi * 0.025,
                                 ),
                                 Column(
                                   children: [
                                     Container(
-                                      height: h * 0.08,
-                                      width: w * 0.22,
+                                      height: he * 0.08,
+                                      width: wi * 0.22,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff2196f5),
                                       ),
@@ -259,13 +325,13 @@ class _HomePageState extends State<HomePage> {
                                         minute.toString().padLeft(2, '0'),
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: h * 0.05,
+                                          fontSize: he * 0.05,
                                         ),
                                       ),
                                     ),
                                     Container(
-                                      height: h * 0.025,
-                                      width: w * 0.22,
+                                      height: he * 0.025,
+                                      width: wi * 0.22,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff127ed6),
                                       ),
@@ -274,7 +340,7 @@ class _HomePageState extends State<HomePage> {
                                         "MINUTS",
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: h * 0.02,
+                                          fontSize: he * 0.02,
                                           letterSpacing: 1,
                                         ),
                                       ),
@@ -282,13 +348,13 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 SizedBox(
-                                  width: w * 0.025,
+                                  width: wi * 0.025,
                                 ),
                                 Column(
                                   children: [
                                     Container(
-                                      height: h * 0.08,
-                                      width: w * 0.22,
+                                      height: he * 0.08,
+                                      width: wi * 0.22,
                                       decoration: const BoxDecoration(
                                         color: Color(0xffff006a),
                                       ),
@@ -297,13 +363,13 @@ class _HomePageState extends State<HomePage> {
                                         second.toString().padLeft(2, '0'),
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: h * 0.05,
+                                          fontSize: he * 0.05,
                                         ),
                                       ),
                                     ),
                                     Container(
-                                      height: h * 0.025,
-                                      width: w * 0.22,
+                                      height: he * 0.025,
+                                      width: wi * 0.22,
                                       decoration: const BoxDecoration(
                                         color: Color(0xffec0062),
                                       ),
@@ -312,7 +378,7 @@ class _HomePageState extends State<HomePage> {
                                         "SECONDS",
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: h * 0.02,
+                                          fontSize: he * 0.02,
                                           letterSpacing: 1,
                                         ),
                                       ),
@@ -320,16 +386,16 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 SizedBox(
-                                  width: w * 0.025,
+                                  width: wi * 0.025,
                                 ),
                                 Column(
                                   children: [
                                     SizedBox(
-                                      height: h * 0.07,
+                                      height: he * 0.07,
                                     ),
                                     Container(
-                                      height: h * 0.035,
-                                      width: w * 0.1,
+                                      height: he * 0.035,
+                                      width: wi * 0.1,
                                       decoration: const BoxDecoration(
                                         color: Color(0xff127ed6),
                                       ),
@@ -338,7 +404,7 @@ class _HomePageState extends State<HomePage> {
                                         "PM",
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: h * 0.02,
+                                          fontSize: he * 0.02,
                                           letterSpacing: 1,
                                         ),
                                       ),
@@ -348,7 +414,7 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             SizedBox(
-                              height: h * 0.015,
+                              height: he * 0.015,
                             ),
                             Text(
                               "${weekday[dateTime.weekday - 1]} ,${dateTime.day.toString().padLeft(2, '0')}  ${month[dateTime.month - 1]}",
@@ -364,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                         visible: analogSwitch,
                         child: CircleAvatar(
                           backgroundColor: Colors.transparent,
-                          radius: w * 0.55,
+                          radius: wi * 0.55,
                           backgroundImage: const AssetImage(
                             "assets/images/clock_image.png",
                           ),
@@ -374,20 +440,20 @@ class _HomePageState extends State<HomePage> {
                       Column(
                         children: [
                           SizedBox(
-                            height: h * 0.47,
+                            height: he * 0.47,
                           ),
                           Visibility(
                             visible: analogSwitch,
                             child: Container(
-                              height: h * 0.03,
-                              width: w * 0.065,
+                              height: he * 0.03,
+                              width: wi * 0.065,
                               color: Colors.grey.shade400,
                               child: Text(
                                 "${dateTime.day.toString().padLeft(2, '0')}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontSize: h * 0.028,
+                                  fontSize: he * 0.028,
                                 ),
                               ),
                               alignment: Alignment.center,
@@ -401,13 +467,12 @@ class _HomePageState extends State<HomePage> {
                         child: Transform.rotate(
                           angle: pi / 2,
                           child: Transform.rotate(
-                            angle:
-                                ((hour + minute / 60) * (pi * 2)) / 12 + pi / 2,
+                            angle: hour * (pi * 2) / 12,
                             child: Divider(
                               thickness: 5,
                               color: Colors.redAccent.shade200,
-                              indent: w * 0.35,
-                              endIndent: w * 0.45,
+                              indent: wi * 0.35,
+                              endIndent: wi * 0.45,
                             ),
                           ),
                         ),
@@ -421,8 +486,8 @@ class _HomePageState extends State<HomePage> {
                           child: Divider(
                             thickness: 4,
                             color: Colors.green.shade200,
-                            indent: w * 0.28,
-                            endIndent: w * 0.45,
+                            indent: wi * 0.28,
+                            endIndent: wi * 0.45,
                           ),
                         ),
                       ),
@@ -437,8 +502,8 @@ class _HomePageState extends State<HomePage> {
                             child: Divider(
                               thickness: 3,
                               color: Colors.pinkAccent.shade200,
-                              indent: w * 0.25,
-                              endIndent: w * 0.4,
+                              indent: wi * 0.25,
+                              endIndent: wi * 0.4,
                             ),
                           ),
                         ),
@@ -447,7 +512,7 @@ class _HomePageState extends State<HomePage> {
                       Visibility(
                         visible: analogSwitch,
                         child: CircleAvatar(
-                          radius: w * 0.015,
+                          radius: wi * 0.015,
                           backgroundColor: Colors.grey,
                         ),
                       ),
@@ -466,7 +531,8 @@ class _HomePageState extends State<HomePage> {
                                   ? Colors.yellow
                                   : Colors.redAccent,
                               thickness: (index % 5 == 0) ? 5 : 2,
-                              endIndent: (index % 5 == 0) ? w * 0.85 : w * 0.88,
+                              endIndent:
+                                  (index % 5 == 0) ? wi * 0.85 : wi * 0.88,
                             ),
                           ),
                         ),
@@ -490,7 +556,7 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: h * 0.268,
+                              height: he * 0.268,
                             ),
                             Text(
                               "Second",
@@ -520,7 +586,7 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: h * 0.307,
+                              height: he * 0.307,
                             ),
                             Text(
                               "minute",
@@ -550,7 +616,7 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: h * 0.347,
+                              height: he * 0.347,
                             ),
                             Text(
                               "hour",
@@ -565,8 +631,8 @@ class _HomePageState extends State<HomePage> {
                       Visibility(
                         visible: strapSwitch,
                         child: Container(
-                          height: h * 0.03,
-                          width: w * 0.065,
+                          height: he * 0.03,
+                          width: wi * 0.065,
                           color: Colors.grey,
                           child: Text(
                             "${dateTime.day.toString().padLeft(2, '0')}",
@@ -577,6 +643,120 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           alignment: Alignment.center,
+                        ),
+                      ),
+
+                      Visibility(
+                        visible: timerWatch,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Center(
+                                child: Text(
+                                  "${h.toString().padLeft(2, '0')} : ${m.toString().padLeft(2, '0')} : ${s.toString().padLeft(2, '0')}",
+                                  style: TextStyle(
+                                      fontSize: textScaler.scale(55),
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ...timerHistory
+                                        .map(
+                                          (e) => GestureDetector(
+                                            onTap: () {
+                                              timerHistory.remove(e);
+                                              setState(() {});
+                                            },
+                                            child: Card(
+                                              margin: const EdgeInsets.all(10),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Hour\n  ${e['hour']}",
+                                                      style: TextStyle(
+                                                        fontSize: textScaler
+                                                            .scale(20),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "Minute\n  ${e['minute']}",
+                                                      style: TextStyle(
+                                                        fontSize: textScaler
+                                                            .scale(20),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "Second\n  ${e['second']}",
+                                                      style: TextStyle(
+                                                        fontSize: textScaler
+                                                            .scale(20),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.all(wi * 0.025),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        if (!isTimerClock) {
+                                          timerClock();
+                                        }
+                                        setState(() {});
+                                      },
+                                      child: const Text("Start"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        isTimerClock = false;
+                                        timerHistory.add({
+                                          'hour': h,
+                                          'minute': m,
+                                          'second': s,
+                                        });
+                                        setState(() {});
+                                      },
+                                      child: const Text("Stop"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        isTimerClock = false;
+                                        s = m = h = 0;
+                                        timerHistory = [];
+                                        setState(() {});
+                                      },
+                                      child: const Text("Restart"),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
