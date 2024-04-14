@@ -28,7 +28,7 @@ class _ListPageState extends State<ListPage> {
                       onPressed: () => Navigator.pushNamed(
                         context,
                         AppRoutes.instance.detailPage,
-                        arguments: e,
+                        arguments: data,
                       ),
                       child: Text(
                         e,

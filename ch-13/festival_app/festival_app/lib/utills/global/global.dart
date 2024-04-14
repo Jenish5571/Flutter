@@ -1,11 +1,10 @@
 import 'package:festival_app/headers.dart';
-import 'package:festival_app/utills/fonts_enum.dart';
 
 class Globals {
   Globals._();
 
   static final Globals instance = Globals._();
-  int index = 0;
+  int indexOf = 0;
   Offset offSet = const Offset(0, 0);
   double angle = 0;
   double size = 14;
@@ -21,7 +20,7 @@ class Globals {
   ];
 
   void reset() {
-    index = 0;
+    indexOf = 0;
     offSet = const Offset(0, 0);
     angle = 0;
     size = 14;
