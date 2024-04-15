@@ -36,3 +36,36 @@ Maintain a professional manner in your project documentation, README.md file, an
 
 ## No Copying:
 Do not copy code or any other content from external sources without proper attribution. Plagiarism is strictly prohibited and can result in severe consequences, including project disqualification.
+
+
+## Output:
+
+<br>
+
+### Screenshots:
+
+<p>
+
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/7fb63970-0104-4cfa-a3f3-d3131979f36b" width=22% height=35% >
+  
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/d2606700-8f8a-409d-ac5b-b03c1a72aece" width=22% height=35% >
+
+   
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/84998d79-77a3-4722-9d25-a86a21d017d3" width=22% height=35% >
+
+   
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/3870c264-3ab7-4229-b336-0af952b830e7" width=22% height=35% >
+
+   
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/cdad6dd2-ce98-429a-953e-820fc3eb15f8" width=22% height=35% >
+
+   
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/060b574d-acdf-405f-964a-f1baf84c5375" width=22% height=35% >
+
+   
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/98f98c09-a502-4207-b785-d070cbe5d1f3" width=22% height=35% >
+
+   
+   <img  src = "https://github.com/Jenish5571/Flutter/assets/132265451/d429f136-e287-4548-9548-a33f26f32e8d" width=22% height=35% >
+  
+</p>
